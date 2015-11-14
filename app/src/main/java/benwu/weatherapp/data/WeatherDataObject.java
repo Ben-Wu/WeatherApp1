@@ -9,11 +9,12 @@ public class WeatherDataObject {
     private double minTemp;
     private double maxTemp;
     private double humidity;
+    private String description;
 
     @Override
     public String toString() {
         return "Location: " + location + ", temps: " + curTemp + ", " +
-                minTemp + ", " + maxTemp + ", humidity: " + humidity;
+                minTemp + ", " + maxTemp + ", humidity: " + humidity + ", desc: " + description;
     }
 
     // setters
@@ -32,6 +33,9 @@ public class WeatherDataObject {
     public void setHumidity(double humidity) {
         this.humidity = humidity;
     }
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
     // getters
     public String getLocation() {
@@ -48,5 +52,8 @@ public class WeatherDataObject {
     }
     public double getHumidity() {
         return humidity;
+    }
+    public String getDescription() {
+        return description;
     }
 }

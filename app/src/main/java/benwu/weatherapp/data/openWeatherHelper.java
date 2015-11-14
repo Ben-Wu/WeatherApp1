@@ -18,16 +18,16 @@ public class OpenWeatherHelper {
     private static final String PARAMS = "&units=metric";
     private static final String API_KEY = "&appid=e640a73de96605837e6ede1be773ff6c";
 
-    private static WeatherDataObject sWeatherDataObject;
-
     public static WeatherDataObject getDataFor(String location) {
-        sWeatherDataObject= null;
+        String jsonContent;
 
-        new ParserTask().execute(location);
-
-        while(sWeatherDataObject == null);
-
-        return sWeatherDataObject;
+        try {
+            jsonContent = NetworkHelper.downloadJsonContent(BASE_URL + location + PARAMS + API_KEY);
+        } catch(Exception e) {
+            LogUtils.LOGE(TAG, "Download JSON: " + e);
+            return null;
+        }
+        return parse(jsonContent);
     }
 
     private static WeatherDataObject parse(String content) {
@@ -39,34 +39,20 @@ public class OpenWeatherHelper {
             root = new JSONObject(content);
         } catch(Exception e) {
             LogUtils.LOGE(TAG, "Parse: " + e);
-            return weather;
+            return null;
         }
         mainData = root.optJSONObject("main");
+
+        if(mainData == null)
+            return null;
 
         weather.setLocation(root.optString("name"));
         weather.setCurTemp(mainData.optDouble("temp"));
         weather.setMinTemp(mainData.optDouble("temp_min"));
         weather.setMaxTemp(mainData.optDouble("temp_max"));
         weather.setHumidity(mainData.optDouble("humidity"));
+        weather.setDescription(root.optJSONArray("weather").optJSONObject(0).optString("main"));
 
         return weather;
-    }
-
-    private static class ParserTask extends AsyncTask<String, Void, WeatherDataObject> {
-
-        protected WeatherDataObject doInBackground(String... params) {
-            String jsonContent;
-
-            try {
-                jsonContent = NetworkHelper.downloadJsonContent(BASE_URL + params[0] + PARAMS + API_KEY);
-            } catch(Exception e) {
-                LogUtils.LOGE(TAG, "Download JSON: " + e);
-                return new WeatherDataObject();
-            }
-            WeatherDataObject ob = parse(jsonContent);
-            LogUtils.LOGD(TAG, ob.toString());
-            sWeatherDataObject = ob;
-            return ob;
-        }
     }
 }
