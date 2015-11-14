@@ -26,6 +26,10 @@ public class MainActivity extends AppCompatActivity {
     public void showWeatherInfo(View view) {
         String location = ((EditText)findViewById(R.id.locationField)).getText().toString();
 
+        if(!NetworkHelper.isConnected(this)) {
+            Toast.makeText(this, "Please check connection", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if(location.length() == 0) {
             Toast.makeText(this, "Please enter a location", Toast.LENGTH_SHORT).show();
             return;

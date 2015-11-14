@@ -23,6 +23,7 @@ public class WeatherInfoActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.loading_circle);
 
         String location = getIntent().getStringExtra(KEY_LOCATION);
         if(location == null)
