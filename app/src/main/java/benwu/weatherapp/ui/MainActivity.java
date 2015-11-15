@@ -1,4 +1,4 @@
-package benwu.weatherapp;
+package benwu.weatherapp.ui;
 
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import benwu.weatherapp.R;
+import benwu.weatherapp.WeatherInfoActivity;
 import benwu.weatherapp.data.OpenWeatherHelper;
 import benwu.weatherapp.data.WeatherDataObject;
 import benwu.weatherapp.utils.LogUtils;
