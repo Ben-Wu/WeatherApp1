@@ -22,17 +22,19 @@ public class MainActivity extends AppCompatActivity {
 
     public void showWeatherInfo(View view) {
         String location = ((EditText)findViewById(R.id.locationField)).getText().toString();
+        String country = ((EditText)findViewById(R.id.countryField)).getText().toString();
 
         if(!NetworkHelper.isConnected(this)) {
             Toast.makeText(this, "Please check connection", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(location.length() == 0) {
-            Toast.makeText(this, "Please enter a location", Toast.LENGTH_SHORT).show();
+        if(location.length() == 0 || country.length() == 0) {
+            Toast.makeText(this, "Please enter a location and country", Toast.LENGTH_SHORT).show();
             return;
         }
         Intent intent = new Intent(this, WeatherInfoActivity.class);
         intent.putExtra(WeatherInfoActivity.KEY_LOCATION, location);
+        intent.putExtra(WeatherInfoActivity.KEY_COUNTRY, country);
         startActivity(intent);
     }
 }

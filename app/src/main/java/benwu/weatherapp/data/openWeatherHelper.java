@@ -18,11 +18,17 @@ public class OpenWeatherHelper {
     private static final String PARAMS = "&units=metric";
     private static final String API_KEY = "&appid=e640a73de96605837e6ede1be773ff6c";
 
-    public static WeatherDataObject getDataFor(String location) {
+    public static WeatherDataObject getDataFor(String... location) {
         String jsonContent;
+        String locationString = "";
+
+        for(String s : location) {
+            locationString += s+",";
+        }
+        locationString = locationString.substring(0, locationString.length()-1);
 
         try {
-            jsonContent = NetworkHelper.downloadJsonContent(BASE_URL + location + PARAMS + API_KEY);
+            jsonContent = NetworkHelper.downloadJsonContent(BASE_URL + locationString + PARAMS + API_KEY);
         } catch(Exception e) {
             LogUtils.LOGE(TAG, "Download JSON: " + e);
             return null;

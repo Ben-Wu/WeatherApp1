@@ -1,7 +1,4 @@
 <resources>
     <string name="app_name">WeatherApp</string>
 
-    <string name="openweather_key">e640a73de96605837e6ede1be773ff6c</string>
-    <string name="openweather_base_url">api.openweathermap.org/data/2.5/weather?q=</string>
-
 </resources>

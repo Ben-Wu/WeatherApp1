@@ -22,6 +22,7 @@ public class WeatherInfoActivity extends FragmentActivity {
     public static final String TAG = "WeatherInfoActivity";
 
     public static final String KEY_LOCATION = "LOCATION";
+    public static final String KEY_COUNTRY = "COUNTRY";
 
     private RetrieveDataTask mTask;
 
@@ -31,11 +32,13 @@ public class WeatherInfoActivity extends FragmentActivity {
         setContentView(R.layout.activity_weather_info);
 
         String location = getIntent().getStringExtra(KEY_LOCATION);
+        String country = getIntent().getStringExtra(KEY_COUNTRY);
+
         if(location == null)
             displayErrorMessage();
         else {
             mTask = new RetrieveDataTask();
-            mTask.execute(location);
+            mTask.execute(country, location);
         }
         ((TextView)findViewById(R.id.location_field)).setText(location);
 
@@ -61,7 +64,7 @@ public class WeatherInfoActivity extends FragmentActivity {
         protected WeatherDataObject[] doInBackground(String... params) {
             WeatherDataObject[] weatherData = new WeatherDataObject[3];
 
-            weatherData[0] = OpenWeatherHelper.getDataFor(params[0]);
+            weatherData[0] = OpenWeatherHelper.getDataFor(params[0], params[1]);
             weatherData[1] = OpenWeatherHelper.getDataFor("Ottawa");
             weatherData[2] = OpenWeatherHelper.getDataFor("Happy Valley Goose Bay");
 
@@ -86,65 +89,3 @@ public class WeatherInfoActivity extends FragmentActivity {
         }
     }
 }
-
-/*public class WeatherInfoActivity extends AppCompatActivity {
-
-    public static final String TAG = "WeatherInfoActivity";
-
-    public static final String KEY_LOCATION = "LOCATION";
-
-    private WeatherDataObject mWeather;
-
-    private RetrieveDataTask mTask;
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.loading_circle);
-
-        String location = getIntent().getStringExtra(KEY_LOCATION);
-        if(location == null)
-            displayErrorMessage();
-        else {
-            mTask = new RetrieveDataTask();
-            mTask.execute(location);
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        if(mTask != null)
-            mTask.cancel(true);
-    }
-
-    private void displayErrorMessage() {
-        Toast.makeText(this, "Invalid location", Toast.LENGTH_SHORT).show();
-    }
-
-    private void setupUi() {
-        ((TextView)findViewById(R.id.locationName)).setText(mWeather.getLocation());
-        ((TextView)findViewById(R.id.minTemp)).setText(String.valueOf(mWeather.getMinTemp()));
-        ((TextView)findViewById(R.id.maxTemp)).setText(String.valueOf(mWeather.getMaxTemp()));
-        ((TextView)findViewById(R.id.curTemp)).setText(String.valueOf(mWeather.getCurTemp()));
-        ((TextView)findViewById(R.id.conditions)).setText(mWeather.getDescription());
-    }
-
-    private class RetrieveDataTask extends AsyncTask<String, Void, WeatherDataObject> {
-        @Override
-        protected WeatherDataObject doInBackground(String... params) {
-            return OpenWeatherHelper.getDataFor(params[0]);
-        }
-
-        @Override
-        protected void onPostExecute(WeatherDataObject weatherDataObject) {
-            mWeather = weatherDataObject;
-            if(mWeather == null)
-                displayErrorMessage();
-            else {
-                setContentView(R.layout.activity_weather_info);
-                setupUi();
-            }
-        }
-    }
-}*/
