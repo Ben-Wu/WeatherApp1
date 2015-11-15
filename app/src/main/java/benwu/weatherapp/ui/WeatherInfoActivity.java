@@ -11,7 +11,9 @@ import android.widget.Toast;
 import benwu.weatherapp.R;
 import benwu.weatherapp.data.DataManager;
 import benwu.weatherapp.data.OpenWeatherHelper;
+import benwu.weatherapp.data.WUndergroundHelper;
 import benwu.weatherapp.data.WeatherDataObject;
+import benwu.weatherapp.utils.Data;
 
 /**
  * Created by Ben Wu on 11/14/2015.
@@ -64,9 +66,9 @@ public class WeatherInfoActivity extends FragmentActivity {
         protected WeatherDataObject[] doInBackground(String... params) {
             WeatherDataObject[] weatherData = new WeatherDataObject[3];
 
-            weatherData[0] = OpenWeatherHelper.getDataFor(params[0], params[1]);
-            weatherData[1] = OpenWeatherHelper.getDataFor("Ottawa");
-            weatherData[2] = OpenWeatherHelper.getDataFor("Happy Valley Goose Bay");
+            weatherData[0] = OpenWeatherHelper.getDataFor(Data.getOpenweatherkey(), params[0], params[1]);
+            weatherData[1] = WUndergroundHelper.getDataFor(Data.getWundergroundkey(), params[0], params[1]);
+            weatherData[2] = OpenWeatherHelper.getDataFor(Data.getOpenweatherkey(), "Happy Valley Goose Bay");
 
             for(WeatherDataObject weatherObject : weatherData) {
                 if(weatherObject == null) return null;

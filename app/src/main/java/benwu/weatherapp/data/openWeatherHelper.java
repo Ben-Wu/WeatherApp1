@@ -16,9 +16,8 @@ public class OpenWeatherHelper {
 
     private static final String BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q=";
     private static final String PARAMS = "&units=metric";
-    private static final String API_KEY = "&appid=e640a73de96605837e6ede1be773ff6c";
 
-    public static WeatherDataObject getDataFor(String... location) {
+    public static WeatherDataObject getDataFor(String key, String... location) {
         String jsonContent;
         String locationString = "";
 
@@ -28,12 +27,14 @@ public class OpenWeatherHelper {
         locationString = locationString.substring(0, locationString.length()-1);
 
         try {
-            jsonContent = NetworkHelper.downloadJsonContent(BASE_URL + locationString + PARAMS + API_KEY);
+            jsonContent = NetworkHelper.downloadJsonContent(BASE_URL + locationString + PARAMS + key);
         } catch(Exception e) {
             LogUtils.LOGE(TAG, "Download JSON: " + e);
             return null;
         }
-        return parse(jsonContent);
+        WeatherDataObject data = parse(jsonContent);
+        LogUtils.LOGI(TAG, data == null ? "No data" : data.toString());
+        return data;
     }
 
     private static WeatherDataObject parse(String content) {

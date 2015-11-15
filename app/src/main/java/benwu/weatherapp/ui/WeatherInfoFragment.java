@@ -25,7 +25,7 @@ public class WeatherInfoFragment extends Fragment {
 
     private ViewPager mViewPager;
 
-    private String[] tabTitles = {"OpenWeatherMap", "Source 2", "Source 3"};
+    private String[] tabTitles = {"OpenWeatherMap", "Weather Underground", "Source 3"};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
