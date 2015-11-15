@@ -1,85 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/location_field"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/locationName"
         android:textSize="30sp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:gravity="center" />
 
-    <TextView
-        android:textSize="20sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/minTemp"
-        android:layout_marginBottom="42dp"
-        android:layout_above="@+id/conditions"
-        android:layout_alignRight="@+id/textView3"
-        android:layout_alignEnd="@+id/textView3"
-        android:layout_marginRight="58dp"
-        android:layout_marginEnd="58dp" />
+    <FrameLayout
+        android:id="@+id/content_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
-    <TextView
-        android:textSize="20sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/maxTemp"
-        android:layout_alignTop="@+id/minTemp"
-        android:layout_toRightOf="@+id/textView"
-        android:layout_toEndOf="@+id/textView"
-        android:layout_marginLeft="57dp"
-        android:layout_marginStart="57dp" />
-
-    <TextView
-        android:textSize="25sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/curTemp"
-        android:layout_marginTop="43dp"
-        android:layout_below="@+id/locationName"
-        android:layout_alignLeft="@+id/conditions"
-        android:layout_alignStart="@+id/conditions" />
-
-    <TextView
-        android:textSize="25sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Text"
-        android:id="@+id/conditions"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Temperature:"
-        android:layout_below="@+id/locationName"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/textView3" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Low:"
-        android:id="@+id/textView"
-        android:layout_alignBottom="@+id/textView2"
-        android:layout_toLeftOf="@+id/textView3"
-        android:layout_toStartOf="@+id/textView3" />
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="High:"
-        android:id="@+id/textView2"
-        android:layout_above="@+id/maxTemp"
-        android:layout_toRightOf="@+id/textView3"
-        android:layout_toEndOf="@+id/textView3"
-        android:layout_marginBottom="35dp" />
-</RelativeLayout>
+</LinearLayout>

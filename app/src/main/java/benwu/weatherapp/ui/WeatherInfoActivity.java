@@ -9,6 +9,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import benwu.weatherapp.R;
+import benwu.weatherapp.data.DataManager;
 import benwu.weatherapp.data.OpenWeatherHelper;
 import benwu.weatherapp.data.WeatherDataObject;
 
@@ -20,16 +21,68 @@ public class WeatherInfoActivity extends FragmentActivity {
 
     public static final String TAG = "WeatherInfoActivity";
 
+    public static final String KEY_LOCATION = "LOCATION";
+
+    private RetrieveDataTask mTask;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_weather_info);
 
-        if (savedInstanceState == null) {
-            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-            WeatherTabFragment fragment = new WeatherTabFragment();
-            transaction.replace(R.id.sample_content_fragment, fragment);
-            transaction.commit();
+        String location = getIntent().getStringExtra(KEY_LOCATION);
+        if(location == null)
+            displayErrorMessage();
+        else {
+            mTask = new RetrieveDataTask();
+            mTask.execute(location);
+        }
+        ((TextView)findViewById(R.id.location_field)).setText(location);
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        LoadingFragment fragment = new LoadingFragment();
+        transaction.replace(R.id.content_fragment, fragment);
+        transaction.commit();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(mTask != null)
+            mTask.cancel(true);
+    }
+
+    private void displayErrorMessage() {
+        Toast.makeText(this, "Invalid location", Toast.LENGTH_SHORT).show();
+    }
+
+    private class RetrieveDataTask extends AsyncTask<String, Void, WeatherDataObject[]> {
+        @Override
+        protected WeatherDataObject[] doInBackground(String... params) {
+            WeatherDataObject[] weatherData = new WeatherDataObject[3];
+
+            weatherData[0] = OpenWeatherHelper.getDataFor(params[0]);
+            weatherData[1] = OpenWeatherHelper.getDataFor("Ottawa");
+            weatherData[2] = OpenWeatherHelper.getDataFor("Happy Valley Goose Bay");
+
+            for(WeatherDataObject weatherObject : weatherData) {
+                if(weatherObject == null) return null;
+            }
+
+            return weatherData;
+        }
+
+        @Override
+        protected void onPostExecute(WeatherDataObject[] weatherDataResults) {
+            if(weatherDataResults == null)
+                displayErrorMessage();
+            else {
+                DataManager.getInstance().setWeatherData(weatherDataResults);
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                WeatherInfoFragment fragment = new WeatherInfoFragment();
+                transaction.replace(R.id.content_fragment, fragment);
+                transaction.commit();
+            }
         }
     }
 }
