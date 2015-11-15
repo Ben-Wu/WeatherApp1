@@ -69,13 +69,13 @@ public class WeatherInfoFragment extends Fragment {
 
             // Retrieve a TextView from the inflated View, and update it's text
             TextView curTemp = (TextView) view.findViewById(R.id.curTemp);
-            TextView maxTemp = (TextView) view.findViewById(R.id.maxTemp);
-            TextView minTemp = (TextView) view.findViewById(R.id.minTemp);
+            TextView locationName = (TextView) view.findViewById(R.id.locationName);
+            TextView time = (TextView) view.findViewById(R.id.time);
             TextView conditions = (TextView) view.findViewById(R.id.conditions);
 
             curTemp.setText(String.valueOf(data.getCurTemp()));
-            maxTemp.setText(String.valueOf(data.getMaxTemp()));
-            minTemp.setText(String.valueOf(data.getMinTemp()));
+            locationName.setText(String.valueOf(data.getLocation()));
+            time.setText(String.valueOf(data.getTime()));
             conditions.setText(data.getDescription());
 
             // Return the View

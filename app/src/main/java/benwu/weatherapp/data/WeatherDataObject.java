@@ -1,20 +1,20 @@
 package benwu.weatherapp.data;
 
+import java.util.Date;
+
 /**
  * Created by Ben Wu on 11/14/2015.
  */
 public class WeatherDataObject {
     private String location;
     private double curTemp;
-    private double minTemp;
-    private double maxTemp;
-    private double humidity;
+    private String time;
+    private String humidity;
     private String description;
 
     @Override
     public String toString() {
-        return "Location: " + location + ", temps: " + curTemp + ", " +
-                minTemp + ", " + maxTemp + ", humidity: " + humidity + ", desc: " + description;
+        return "Location: " + location + ", temps: " + curTemp + ", humidity: " + humidity + ", desc: " + description;
     }
 
     // setters
@@ -24,13 +24,10 @@ public class WeatherDataObject {
     public void setCurTemp(double curTemp) {
         this.curTemp = curTemp;
     }
-    public void setMinTemp(double minTemp) {
-        this.minTemp = minTemp;
+    public void setTime(long time) {
+        this.time = convertTime(time);
     }
-    public void setMaxTemp(double maxTemp) {
-        this.maxTemp = maxTemp;
-    }
-    public void setHumidity(double humidity) {
+    public void setHumidity(String humidity) {
         this.humidity = humidity;
     }
     public void setDescription(String description) {
@@ -44,16 +41,18 @@ public class WeatherDataObject {
     public double getCurTemp() {
         return curTemp;
     }
-    public double getMinTemp() {
-        return minTemp;
+    public String getTime() {
+        return time;
     }
-    public double getMaxTemp() {
-        return maxTemp;
-    }
-    public double getHumidity() {
+    public String getHumidity() {
         return humidity;
     }
     public String getDescription() {
         return description;
+    }
+
+    private String convertTime(long epochTime) {
+        Date date = new Date(epochTime*1000);
+        return date.toString();
     }
 }

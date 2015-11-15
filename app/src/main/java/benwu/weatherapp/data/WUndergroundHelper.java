@@ -1,18 +1,16 @@
 package benwu.weatherapp.data;
 
-import android.util.Log;
-
 import org.json.JSONObject;
 
 import benwu.weatherapp.utils.LogUtils;
 import benwu.weatherapp.utils.NetworkHelper;
 
 /**
- * Created by Ben Wu on 11/14/2015.
+ * Created by Ben Wu on 11/15/2015.
  */
-public class OpenWeatherHelper {
+public class WUndergroundHelper {
 
-    private static final String TAG = "OpenWeatherHelper";
+    private static final String TAG = "WUndergroundHelper";
 
     private static final String BASE_URL = "http://api.openweathermap.org/data/2.5/weather?q=";
     private static final String PARAMS = "&units=metric";
@@ -52,9 +50,9 @@ public class OpenWeatherHelper {
         if(mainData == null)
             return null;
 
-        weather.setTime(root.optLong("dt"));
         weather.setLocation(root.optString("name"));
         weather.setCurTemp(mainData.optDouble("temp"));
+        weather.setTime(231234);
         weather.setHumidity(mainData.optString("humidity"));
         weather.setDescription(root.optJSONArray("weather").optJSONObject(0).optString("main"));
 
