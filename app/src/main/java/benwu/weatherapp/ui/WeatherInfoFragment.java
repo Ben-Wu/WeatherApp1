@@ -25,7 +25,7 @@ public class WeatherInfoFragment extends Fragment {
 
     private ViewPager mViewPager;
 
-    private String[] tabTitles = {"OpenWeatherMap", "Weather Underground", "Source 3"};
+    private String[] tabTitles = {"OpenWeatherMap", "Weather Underground", "Yahoo! Weather"};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -70,13 +70,15 @@ public class WeatherInfoFragment extends Fragment {
             // Retrieve a TextView from the inflated View, and update it's text
             TextView curTemp = (TextView) view.findViewById(R.id.curTemp);
             TextView locationName = (TextView) view.findViewById(R.id.locationName);
-            TextView time = (TextView) view.findViewById(R.id.time);
-            TextView conditions = (TextView) view.findViewById(R.id.conditions);
+            TextView time = (TextView) view.findViewById(R.id.updatedTime);
+            TextView conditions = (TextView) view.findViewById(R.id.weatherDesc);
+            TextView humidity = (TextView) view.findViewById(R.id.curHumidity);
 
-            curTemp.setText(String.valueOf(data.getCurTemp()));
+            curTemp.setText(String.valueOf(data.getCurTemp()) + " °C");
             locationName.setText(String.valueOf(data.getLocation()));
-            time.setText(String.valueOf(data.getTime()));
+            time.setText(data.getTime());
             conditions.setText(data.getDescription());
+            humidity.setText(data.getHumidity() + "%");
 
             // Return the View
             return view;
