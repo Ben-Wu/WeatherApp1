@@ -1,5 +1,7 @@
 package benwu.weatherapp.ui;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.PagerAdapter;
@@ -7,6 +9,8 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import benwu.weatherapp.R;
@@ -25,7 +29,7 @@ public class WeatherInfoFragment extends Fragment {
 
     private ViewPager mViewPager;
 
-    private String[] tabTitles = {"OpenWeatherMap", "Weather Underground", "Yahoo! Weather"};
+    private String[] tabTitles = {"OpenWeatherMap", "Weather Underground", "Yahoo"};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,7 +77,32 @@ public class WeatherInfoFragment extends Fragment {
             TextView time = (TextView) view.findViewById(R.id.updatedTime);
             TextView conditions = (TextView) view.findViewById(R.id.weatherDesc);
             TextView humidity = (TextView) view.findViewById(R.id.curHumidity);
+            ImageButton logoImage = (ImageButton) view.findViewById(R.id.logoImage);
 
+            switch(position) {
+                case 1:
+                    logoImage.setImageDrawable(getResources().getDrawable(R.drawable.logo_wunderground));
+                    logoImage.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW,
+                                    Uri.parse("http://www.wunderground.com/?apiref=08287701d9ba4ce8"));
+                            startActivity(intent);
+                        }
+                    });
+                    break;
+                case 2:
+                    logoImage.setImageDrawable(getResources().getDrawable(R.drawable.logo_yahoo));
+                    logoImage.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW,
+                                    Uri.parse("https://www.yahoo.com/?ilc=401"));
+                            startActivity(intent);
+                        }
+                    });
+                    break;
+            }
             curTemp.setText(String.valueOf(data.getCurTemp()) + " °C");
             locationName.setText(String.valueOf(data.getLocation()));
             time.setText(data.getTime());

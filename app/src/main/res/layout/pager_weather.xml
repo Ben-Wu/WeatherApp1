@@ -4,6 +4,7 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
 
     <TextView
+        android:layout_marginTop="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="20sp"
@@ -13,24 +14,35 @@
 
     <LinearLayout
         android:layout_margin="10dp"
-        android:layout_weight="2"
+        android:layout_weight="4"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
             android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:id="@+id/weatherImage"
+            android:background="@color/skyBlue"/>
+
+        <LinearLayout
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/weatherImage"/>
-        <TextView
-            android:layout_weight="2"
-            android:layout_gravity="center"
-            android:textAlignment="center"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="placeholder"
-            android:textSize="20sp"
-            android:id="@+id/weatherDesc"/>
+            android:layout_height="match_parent">
+            <TextView
+                android:textSize="15sp"
+                android:text="It is "
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:textSize="20sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="placeholder"
+                android:id="@+id/weatherDesc"/>
+        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
@@ -90,12 +102,14 @@
             android:id="@+id/updatedTime"/>
     </LinearLayout>
 
-    <ImageView
+    <ImageButton
         android:layout_margin="10dp"
-        android:layout_weight="4"
+        android:layout_weight="3"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:id="@+id/logoImage"
-        android:layout_gravity="bottom" />
+        android:layout_gravity="bottom"
+        android:background="@android:color/transparent"
+        android:scaleType="fitCenter" />
 
 </LinearLayout>
