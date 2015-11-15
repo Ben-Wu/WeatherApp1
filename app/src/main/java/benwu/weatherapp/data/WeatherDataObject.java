@@ -22,10 +22,13 @@ public class WeatherDataObject {
         this.location = location;
     }
     public void setCurTemp(double curTemp) {
-        this.curTemp = curTemp;
+        this.curTemp = ((double)((int)(curTemp*100)))/100;
     }
     public void setTime(long time) {
         this.time = convertTime(time);
+    }
+    public void setTime(String time) {
+        this.time = time;
     }
     public void setHumidity(String humidity) {
         this.humidity = humidity;

@@ -13,6 +13,7 @@ import benwu.weatherapp.data.DataManager;
 import benwu.weatherapp.data.OpenWeatherHelper;
 import benwu.weatherapp.data.WUndergroundHelper;
 import benwu.weatherapp.data.WeatherDataObject;
+import benwu.weatherapp.data.YahooWeatherHelper;
 import benwu.weatherapp.utils.Data;
 
 /**
@@ -42,7 +43,7 @@ public class WeatherInfoActivity extends FragmentActivity {
             mTask = new RetrieveDataTask();
             mTask.execute(country, location);
         }
-        ((TextView)findViewById(R.id.location_field)).setText(location);
+        ((TextView)findViewById(R.id.location_field)).setText(location + "\n" + country);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         LoadingFragment fragment = new LoadingFragment();
@@ -68,7 +69,7 @@ public class WeatherInfoActivity extends FragmentActivity {
 
             weatherData[0] = OpenWeatherHelper.getDataFor(Data.getOpenweatherkey(), params[0], params[1]);
             weatherData[1] = WUndergroundHelper.getDataFor(Data.getWundergroundkey(), params[0], params[1]);
-            weatherData[2] = OpenWeatherHelper.getDataFor(Data.getOpenweatherkey(), "Happy Valley Goose Bay");
+            weatherData[2] = YahooWeatherHelper.getDataFor(params[0], params[1]);
 
             for(WeatherDataObject weatherObject : weatherData) {
                 if(weatherObject == null) return null;

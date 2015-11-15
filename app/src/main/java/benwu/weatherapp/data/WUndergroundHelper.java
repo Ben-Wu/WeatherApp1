@@ -78,7 +78,7 @@ public class WUndergroundHelper {
         weather.setLocation(mainData.optJSONObject("display_location").optString("full"));
         weather.setCurTemp(mainData.optDouble("temp_c"));
         weather.setTime(Long.parseLong(mainData.optString("observation_epoch")));
-        weather.setHumidity(mainData.optString("relative_humidity"));
+        weather.setHumidity(mainData.optString("relative_humidity").replaceAll("%", ""));
         weather.setDescription(mainData.optString("weather"));
 
         return weather;
