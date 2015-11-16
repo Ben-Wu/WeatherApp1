@@ -28,8 +28,8 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Please check connection", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(location.length() == 0 || country.length() == 0) {
-            Toast.makeText(this, "Please enter a location and country", Toast.LENGTH_SHORT).show();
+        if(location.length() == 0) {
+            Toast.makeText(this, "Please enter a location", Toast.LENGTH_SHORT).show();
             return;
         }
         Intent intent = new Intent(this, WeatherInfoActivity.class);

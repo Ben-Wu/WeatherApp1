@@ -13,6 +13,7 @@ import benwu.weatherapp.data.DataManager;
 import benwu.weatherapp.data.OpenWeatherHelper;
 import benwu.weatherapp.data.WUndergroundHelper;
 import benwu.weatherapp.data.WeatherDataObject;
+import benwu.weatherapp.data.WorldWeatherHelper;
 import benwu.weatherapp.data.YahooWeatherHelper;
 import benwu.weatherapp.utils.Data;
 
@@ -41,9 +42,14 @@ public class WeatherInfoActivity extends FragmentActivity {
             displayErrorMessage();
         else {
             mTask = new RetrieveDataTask();
-            mTask.execute(country, location);
+            if (country == null || country.isEmpty()) {
+                mTask.execute(location);
+            } else {
+                mTask.execute(country, location);
+                ((TextView)findViewById(R.id.country_field)).setText(country);
+            }
         }
-        ((TextView)findViewById(R.id.location_field)).setText(location + "\n" + country);
+        ((TextView)findViewById(R.id.location_field)).setText(location);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         LoadingFragment fragment = new LoadingFragment();
@@ -65,11 +71,12 @@ public class WeatherInfoActivity extends FragmentActivity {
     private class RetrieveDataTask extends AsyncTask<String, Void, WeatherDataObject[]> {
         @Override
         protected WeatherDataObject[] doInBackground(String... params) {
-            WeatherDataObject[] weatherData = new WeatherDataObject[3];
+            WeatherDataObject[] weatherData = new WeatherDataObject[4];
 
-            weatherData[0] = OpenWeatherHelper.getDataFor(Data.getOpenweatherkey(), params[0], params[1]);
-            weatherData[1] = WUndergroundHelper.getDataFor(Data.getWundergroundkey(), params[0], params[1]);
-            weatherData[2] = YahooWeatherHelper.getDataFor(params[0], params[1]);
+            weatherData[0] = OpenWeatherHelper.getDataFor(Data.getOpenweatherkey(), params);
+            weatherData[1] = WUndergroundHelper.getDataFor(Data.getWundergroundkey(), params);
+            weatherData[2] = YahooWeatherHelper.getDataFor(params);
+            weatherData[3] = WorldWeatherHelper.getDataFor(Data.getWorldweatherkey(), params);
 
             return weatherData;
         }

@@ -29,7 +29,7 @@ public class WeatherInfoFragment extends Fragment {
 
     private ViewPager mViewPager;
 
-    private String[] tabTitles = {"OpenWeatherMap", "Weather Underground", "Yahoo"};
+    private String[] tabTitles = {"OpenWeatherMap", "Weather Underground", "Yahoo", "World Weather Online"};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,7 +50,7 @@ public class WeatherInfoFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return 3;
+            return 4;
         }
 
         @Override

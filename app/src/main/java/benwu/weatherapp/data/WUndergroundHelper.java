@@ -13,14 +13,14 @@ public class WUndergroundHelper {
     private static final String TAG = "WUndergroundHelper";
 
     private static final String BASE_URL = "http://api.wunderground.com/api/";
-    private static final String PARAMS = "/conditions/";
+    private static final String PARAMS = "/conditions";
     private static final String DATA_FORMAT = ".json";
 
     private static String mKey;
 
     public static WeatherDataObject getDataFor(String key, String... location) {
         String jsonContent;
-        String locationString = "q/";
+        String locationString = "/q/";
 
         for(String s : location) {
             locationString += s+"/";
@@ -46,7 +46,7 @@ public class WUndergroundHelper {
         try {
             root = new JSONObject(content);
         } catch(Exception e) {
-            LogUtils.LOGE(TAG, "Parse: " + e);
+            LogUtils.LOGE(TAG, "Route: " + e);
             return null;
         }
 
@@ -56,7 +56,14 @@ public class WUndergroundHelper {
             return null;
         }
         String locationUrl = root.optJSONObject("response").optJSONArray("results").optJSONObject(0).optString("l");
-        return parse(BASE_URL + mKey + PARAMS + locationUrl + DATA_FORMAT);
+        String jsonContent;
+        try {
+            jsonContent = NetworkHelper.downloadJsonContent(BASE_URL + mKey + PARAMS + locationUrl + DATA_FORMAT);
+        } catch(Exception e) {
+            LogUtils.LOGE(TAG, "Download JSON: " + e);
+            return null;
+        }
+        return parse(jsonContent);
     }
 
     private static WeatherDataObject parse(String content) {
