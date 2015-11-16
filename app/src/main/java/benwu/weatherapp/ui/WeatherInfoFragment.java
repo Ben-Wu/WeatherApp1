@@ -66,18 +66,34 @@ public class WeatherInfoFragment extends Fragment {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             WeatherDataObject data = DataManager.getInstance().getWeatherData()[position];
-            // Inflate a new layout from our resources
-            View view = getActivity().getLayoutInflater().inflate(R.layout.pager_weather, container, false);
-            // Add the newly created View to the ViewPager
-            container.addView(view);
+            View view;
+            TextView curTemp;
+            TextView locationName;
+            TextView time;
+            TextView conditions;
+            TextView humidity;
+            ImageButton logoImage;
 
-            // Retrieve a TextView from the inflated View, and update it's text
-            TextView curTemp = (TextView) view.findViewById(R.id.curTemp);
-            TextView locationName = (TextView) view.findViewById(R.id.locationName);
-            TextView time = (TextView) view.findViewById(R.id.updatedTime);
-            TextView conditions = (TextView) view.findViewById(R.id.weatherDesc);
-            TextView humidity = (TextView) view.findViewById(R.id.curHumidity);
-            ImageButton logoImage = (ImageButton) view.findViewById(R.id.logoImage);
+            if(data == null) {
+                view = getActivity().getLayoutInflater().inflate(R.layout.pager_nodata, container, false);
+                logoImage = (ImageButton) view.findViewById(R.id.logoImage2);
+            } else {
+                view = getActivity().getLayoutInflater().inflate(R.layout.pager_weather, container, false);
+                curTemp = (TextView) view.findViewById(R.id.curTemp);
+                locationName = (TextView) view.findViewById(R.id.locationName);
+                time = (TextView) view.findViewById(R.id.updatedTime);
+                conditions = (TextView) view.findViewById(R.id.weatherDesc);
+                humidity = (TextView) view.findViewById(R.id.curHumidity);
+                logoImage = (ImageButton) view.findViewById(R.id.logoImage);
+
+                curTemp.setText(String.format("%s °C", String.valueOf(data.getCurTemp())));
+                locationName.setText(String.valueOf(data.getLocation()));
+                time.setText(data.getTime());
+                conditions.setText(data.getDescription());
+                humidity.setText(data.getHumidity() + "%");
+            }
+
+            container.addView(view);
 
             switch(position) {
                 case 1:
@@ -103,13 +119,6 @@ public class WeatherInfoFragment extends Fragment {
                     });
                     break;
             }
-            curTemp.setText(String.valueOf(data.getCurTemp()) + " °C");
-            locationName.setText(String.valueOf(data.getLocation()));
-            time.setText(data.getTime());
-            conditions.setText(data.getDescription());
-            humidity.setText(data.getHumidity() + "%");
-
-            // Return the View
             return view;
         }
 

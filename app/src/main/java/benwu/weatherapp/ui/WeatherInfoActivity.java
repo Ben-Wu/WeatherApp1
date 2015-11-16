@@ -71,10 +71,6 @@ public class WeatherInfoActivity extends FragmentActivity {
             weatherData[1] = WUndergroundHelper.getDataFor(Data.getWundergroundkey(), params[0], params[1]);
             weatherData[2] = YahooWeatherHelper.getDataFor(params[0], params[1]);
 
-            for(WeatherDataObject weatherObject : weatherData) {
-                if(weatherObject == null) return null;
-            }
-
             return weatherData;
         }
 

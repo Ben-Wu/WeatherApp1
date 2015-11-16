@@ -22,8 +22,7 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:id="@+id/weatherImage"
-            android:background="@color/skyBlue"/>
+            android:id="@+id/weatherImage" />
 
         <LinearLayout
             android:layout_weight="1"

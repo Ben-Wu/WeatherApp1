@@ -53,6 +53,9 @@ public class YahooWeatherHelper {
 
         mainData = mainData.optJSONObject("channel");
 
+        if(mainData.optString("title").contains("Error"))
+            return null;
+
         weather.setTime(mainData.optString("lastBuildDate"));
         weather.setLocation(mainData.optJSONObject("location").optString("city"));
         weather.setCurTemp((mainData.optJSONObject("item").optJSONObject("condition").optDouble("temp")-32)*5/9); // convert to c
