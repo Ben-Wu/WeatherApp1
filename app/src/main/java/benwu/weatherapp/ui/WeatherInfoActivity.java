@@ -71,7 +71,7 @@ public class WeatherInfoActivity extends FragmentActivity {
     private class RetrieveDataTask extends AsyncTask<String, Void, WeatherDataObject[]> {
         @Override
         protected WeatherDataObject[] doInBackground(String... params) {
-            WeatherDataObject[] weatherData = new WeatherDataObject[4];
+            WeatherDataObject[] weatherData = new WeatherDataObject[4]; // TODO: throw exception
 
             weatherData[0] = OpenWeatherHelper.getDataFor(Data.getOpenweatherkey(), params);
             weatherData[1] = WUndergroundHelper.getDataFor(Data.getWundergroundkey(), params);

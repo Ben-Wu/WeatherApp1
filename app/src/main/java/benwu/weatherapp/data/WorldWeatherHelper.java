@@ -10,7 +10,7 @@ import benwu.weatherapp.utils.NetworkHelper;
  */
 public class WorldWeatherHelper {
 
-    private static final String TAG = "YahooWeatherHelper";
+    private static final String TAG = "WorldWeatherHelper";
 
     private static final String BASE_URL =
             "http://api.worldweatheronline.com/free/v2/weather.ashx?q=";

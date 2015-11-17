@@ -73,6 +73,7 @@ public class WeatherInfoFragment extends Fragment {
             TextView conditions;
             TextView humidity;
             ImageButton logoImage;
+            ImageView weatherIcon;
 
             if(data == null) {
                 view = getActivity().getLayoutInflater().inflate(R.layout.pager_nodata, container, false);
@@ -85,6 +86,10 @@ public class WeatherInfoFragment extends Fragment {
                 conditions = (TextView) view.findViewById(R.id.weatherDesc);
                 humidity = (TextView) view.findViewById(R.id.curHumidity);
                 logoImage = (ImageButton) view.findViewById(R.id.logoImage);
+                weatherIcon = (ImageView) view.findViewById(R.id.weatherImage);
+
+                weatherIcon.setScaleType(ImageView.ScaleType.FIT_CENTER);
+                weatherIcon.setImageDrawable(container.getResources().getDrawable(matchIcon(data.getDescription())));
 
                 curTemp.setText(String.format("%s °C", String.valueOf(data.getCurTemp())));
                 locationName.setText(String.valueOf(data.getLocation()));
@@ -126,6 +131,21 @@ public class WeatherInfoFragment extends Fragment {
         public void destroyItem(ViewGroup container, int position, Object object) {
             container.removeView((View) object);
         }
+    }
 
+    private int matchIcon(String description) {
+        description = description.toLowerCase();
+        if(description.contains("clear")) {
+            return R.drawable.weather_clear;
+        } else if(description.contains("part")) {
+            return R.drawable.weather_partial;
+        } else if(description.contains("cloud")) {
+            return R.drawable.weather_cloudy;
+        } else if(description.contains("rain")) {
+            return R.drawable.weather_rain;
+        } else if(description.contains("snow")) {
+            return R.drawable.weather_snow;
+        }
+        return R.drawable.weather_partial;
     }
 }
