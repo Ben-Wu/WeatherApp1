@@ -1,11 +1,12 @@
 package benwu.weatherapp.ui;
 
+import android.annotation.TargetApi;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.TextView;
+import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.Toast;
 
 import benwu.weatherapp.R;
@@ -21,7 +22,7 @@ import benwu.weatherapp.utils.Data;
  * Created by Ben Wu on 11/14/2015.
  */
 
-public class WeatherInfoActivity extends FragmentActivity {
+public class WeatherInfoActivity extends AppCompatActivity {
 
     public static final String TAG = "WeatherInfoActivity";
 
@@ -38,6 +39,8 @@ public class WeatherInfoActivity extends FragmentActivity {
         String location = getIntent().getStringExtra(KEY_LOCATION);
         String country = getIntent().getStringExtra(KEY_COUNTRY);
 
+        setupToolbar(location, country);
+
         if(location == null)
             displayErrorMessage();
         else {
@@ -46,10 +49,8 @@ public class WeatherInfoActivity extends FragmentActivity {
                 mTask.execute(location);
             } else {
                 mTask.execute(country, location);
-                ((TextView)findViewById(R.id.country_field)).setText(country);
             }
         }
-        ((TextView)findViewById(R.id.location_field)).setText(location);
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         LoadingFragment fragment = new LoadingFragment();
@@ -62,6 +63,17 @@ public class WeatherInfoActivity extends FragmentActivity {
         super.onPause();
         if(mTask != null)
             mTask.cancel(true);
+    }
+
+    private void setupToolbar(String location, String country) {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.weather_info_toolbar);
+        toolbar.setTitle(location);
+        if(!country.isEmpty())
+            toolbar.setSubtitle(country);
+        toolbar.setSubtitleTextColor(getResources().getColor(R.color.white));
+        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
+        //toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
+        setSupportActionBar(toolbar);
     }
 
     private void displayErrorMessage() {
