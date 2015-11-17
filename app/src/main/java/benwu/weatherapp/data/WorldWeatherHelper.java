@@ -1,5 +1,6 @@
 package benwu.weatherapp.data;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import benwu.weatherapp.utils.LogUtils;
@@ -31,32 +32,30 @@ public class WorldWeatherHelper {
             LogUtils.LOGE(TAG, "Download JSON: " + e);
             return null;
         }
-        WeatherDataObject data = parse(jsonContent);
+        WeatherDataObject data;
+        try {
+            data = parse(jsonContent);
+        } catch(JSONException e) {
+            data = null;
+        }
         LogUtils.LOGI(TAG, data == null ? "No data" : data.toString());
         return data;
     }
 
-    private static WeatherDataObject parse(String content) {
+    private static WeatherDataObject parse(String content) throws JSONException {
         WeatherDataObject weather = new WeatherDataObject();
         JSONObject root;
         JSONObject mainData;
 
-        try {
-            root = new JSONObject(content);
-        } catch(Exception e) {
-            LogUtils.LOGE(TAG, "Parse: " + e);
-            return null;
-        }
-        if(root.optJSONObject("data").has("error"))
-            return null;
+        root = new JSONObject(content);
 
-        mainData = root.optJSONObject("data").optJSONArray("current_condition").optJSONObject(0);
+        mainData = root.getJSONObject("data").getJSONArray("current_condition").getJSONObject(0);
 
-        weather.setTime(mainData.optString("observation_time") + " GMT");
-        weather.setLocation(root.optJSONObject("data").optJSONArray("request").optJSONObject(0).optString("query"));
-        weather.setCurTemp(mainData.optDouble("temp_C"));
-        weather.setHumidity(mainData.optString("humidity"));
-        weather.setDescription(mainData.optJSONArray("weatherDesc").optJSONObject(0).optString("value"));
+        weather.setTime(mainData.getString("observation_time") + " GMT");
+        weather.setLocation(root.getJSONObject("data").getJSONArray("request").getJSONObject(0).getString("query"));
+        weather.setCurTemp(mainData.getDouble("temp_C"));
+        weather.setHumidity(mainData.getString("humidity"));
+        weather.setDescription(mainData.getJSONArray("weatherDesc").getJSONObject(0).getString("value"));
 
         return weather;
     }

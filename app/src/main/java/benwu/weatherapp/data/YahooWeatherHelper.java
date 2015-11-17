@@ -1,5 +1,6 @@
 package benwu.weatherapp.data;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import benwu.weatherapp.utils.LogUtils;
@@ -31,36 +32,32 @@ public class YahooWeatherHelper {
             LogUtils.LOGE(TAG, "Download JSON: " + e);
             return null;
         }
-        WeatherDataObject data = parse(jsonContent);
+        WeatherDataObject data;
+        try{
+            data = parse(jsonContent);
+        } catch(JSONException e) {
+            data = null;
+        }
         LogUtils.LOGI(TAG, data == null ? "No data" : data.toString());
         return data;
     }
 
-    private static WeatherDataObject parse(String content) {
+    private static WeatherDataObject parse(String content) throws JSONException {
         WeatherDataObject weather = new WeatherDataObject();
         JSONObject root;
         JSONObject mainData;
 
-        try {
-            root = new JSONObject(content);
-        } catch(Exception e) {
-            LogUtils.LOGE(TAG, "Parse: " + e);
-            return null;
-        }
-        mainData = root.optJSONObject("query").optJSONObject("results");
-        if(mainData == null)
-            return null;
+        root = new JSONObject(content);
 
-        mainData = mainData.optJSONObject("channel");
+        mainData = root.getJSONObject("query").getJSONObject("results");
 
-        if(mainData.optString("title").contains("Error"))
-            return null;
+        mainData = mainData.getJSONObject("channel");
 
-        weather.setTime(mainData.optString("lastBuildDate"));
-        weather.setLocation(mainData.optJSONObject("location").optString("city"));
-        weather.setCurTemp((mainData.optJSONObject("item").optJSONObject("condition").optDouble("temp")-32)*5/9); // convert to c
-        weather.setHumidity(mainData.optJSONObject("atmosphere").optString("humidity"));
-        weather.setDescription(mainData.optJSONObject("item").optJSONObject("condition").optString("text"));
+        weather.setTime(mainData.getString("lastBuildDate"));
+        weather.setLocation(mainData.getJSONObject("location").getString("city"));
+        weather.setCurTemp((mainData.getJSONObject("item").getJSONObject("condition").getDouble("temp")-32)*5/9); // convert to c
+        weather.setHumidity(mainData.getJSONObject("atmosphere").getString("humidity"));
+        weather.setDescription(mainData.getJSONObject("item").getJSONObject("condition").getString("text"));
 
         return weather;
     }

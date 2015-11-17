@@ -1,5 +1,6 @@
 package benwu.weatherapp.data;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import benwu.weatherapp.utils.LogUtils;
@@ -35,27 +36,27 @@ public class WUndergroundHelper {
             LogUtils.LOGE(TAG, "Download JSON: " + e);
             return null;
         }
-        WeatherDataObject data = router(jsonContent);
+        WeatherDataObject data;
+        try {
+            data = router(jsonContent);
+        } catch(JSONException e) {
+            data = null;
+        }
         LogUtils.LOGI(TAG, data == null ? "No data" : data.toString());
         return data;
     }
 
-    private static WeatherDataObject router(String content) {
+    private static WeatherDataObject router(String content) throws JSONException {
         JSONObject root;
 
-        try {
-            root = new JSONObject(content);
-        } catch(Exception e) {
-            LogUtils.LOGE(TAG, "Route: " + e);
-            return null;
-        }
+        root = new JSONObject(content);
 
         if(root.has("current_observation")) {
             return parse(content);
-        } else if(root.optJSONObject("response").has("error")) {
+        } else if(root.getJSONObject("response").has("error")) {
             return null;
         }
-        String locationUrl = root.optJSONObject("response").optJSONArray("results").optJSONObject(0).optString("l");
+        String locationUrl = root.getJSONObject("response").getJSONArray("results").getJSONObject(0).getString("l");
         String jsonContent;
         try {
             jsonContent = NetworkHelper.downloadJsonContent(BASE_URL + mKey + PARAMS + locationUrl + DATA_FORMAT);
@@ -66,27 +67,23 @@ public class WUndergroundHelper {
         return parse(jsonContent);
     }
 
-    private static WeatherDataObject parse(String content) {
+    private static WeatherDataObject parse(String content) throws JSONException {
         WeatherDataObject weather = new WeatherDataObject();
         JSONObject root;
         JSONObject mainData;
 
-        try {
-            root = new JSONObject(content);
-        } catch(Exception e) {
-            LogUtils.LOGE(TAG, "Parse: " + e);
-            return null;
-        }
-        mainData = root.optJSONObject("current_observation");
+        root = new JSONObject(content);
+
+        mainData = root.getJSONObject("current_observation");
 
         if(mainData == null)
             return null;
 
-        weather.setLocation(mainData.optJSONObject("display_location").optString("full"));
-        weather.setCurTemp(mainData.optDouble("temp_c"));
-        weather.setTime(Long.parseLong(mainData.optString("observation_epoch")));
-        weather.setHumidity(mainData.optString("relative_humidity").replaceAll("%", ""));
-        weather.setDescription(mainData.optString("weather"));
+        weather.setLocation(mainData.getJSONObject("display_location").getString("full"));
+        weather.setCurTemp(mainData.getDouble("temp_c"));
+        weather.setTime(Long.parseLong(mainData.getString("observation_epoch")));
+        weather.setHumidity(mainData.getString("relative_humidity").replaceAll("%", ""));
+        weather.setDescription(mainData.getString("weather"));
 
         return weather;
     }

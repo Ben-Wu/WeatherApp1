@@ -2,6 +2,7 @@ package benwu.weatherapp.data;
 
 import android.util.Log;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import benwu.weatherapp.utils.LogUtils;
@@ -32,32 +33,30 @@ public class OpenWeatherHelper {
             LogUtils.LOGE(TAG, "Download JSON: " + e);
             return null;
         }
-        WeatherDataObject data = parse(jsonContent);
+        WeatherDataObject data;
+        try {
+            data = parse(jsonContent);
+        } catch(JSONException e) {
+            data = null;
+        }
         LogUtils.LOGI(TAG, data == null ? "No data" : data.toString());
         return data;
     }
 
-    private static WeatherDataObject parse(String content) {
+    private static WeatherDataObject parse(String content) throws JSONException {
         WeatherDataObject weather = new WeatherDataObject();
         JSONObject root;
         JSONObject mainData;
 
-        try {
-            root = new JSONObject(content);
-        } catch(Exception e) {
-            LogUtils.LOGE(TAG, "Parse: " + e);
-            return null;
-        }
-        mainData = root.optJSONObject("main");
+        root = new JSONObject(content);
 
-        if(mainData == null)
-            return null;
+        mainData = root.getJSONObject("main");
 
-        weather.setTime(root.optLong("dt"));
-        weather.setLocation(root.optString("name"));
-        weather.setCurTemp(mainData.optDouble("temp"));
-        weather.setHumidity(mainData.optString("humidity"));
-        weather.setDescription(root.optJSONArray("weather").optJSONObject(0).optString("main"));
+        weather.setTime(root.getLong("dt"));
+        weather.setLocation(root.getString("name"));
+        weather.setCurTemp(mainData.getDouble("temp"));
+        weather.setHumidity(mainData.getString("humidity"));
+        weather.setDescription(root.getJSONArray("weather").getJSONObject(0).getString("main"));
 
         return weather;
     }
