@@ -29,7 +29,7 @@ public class WeatherInfoFragment extends Fragment {
 
     private ViewPager mViewPager;
 
-    private String[] tabTitles = {"OpenWeatherMap", "Weather Underground", "Yahoo", "World Weather Online"};
+    private String[] tabTitles = {"OpenWeatherMap", "Weather Underground", "Yahoo", "World Weather Online", "Aeris Weather"};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,7 +50,7 @@ public class WeatherInfoFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return 4;
+            return 5;
         }
 
         @Override
@@ -101,6 +101,16 @@ public class WeatherInfoFragment extends Fragment {
             container.addView(view);
 
             switch(position) {
+                case 0:
+                    logoImage.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW,
+                                    Uri.parse("http://openweathermap.org/"));
+                            startActivity(intent);
+                        }
+                    });
+                    break;
                 case 1:
                     logoImage.setImageDrawable(getResources().getDrawable(R.drawable.logo_wunderground));
                     logoImage.setOnClickListener(new View.OnClickListener() {
@@ -119,6 +129,27 @@ public class WeatherInfoFragment extends Fragment {
                         public void onClick(View v) {
                             Intent intent = new Intent(Intent.ACTION_VIEW,
                                     Uri.parse("https://www.yahoo.com/?ilc=401"));
+                            startActivity(intent);
+                        }
+                    });
+                    break;
+                case 3:
+                    logoImage.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW,
+                                    Uri.parse("http://www.worldweatheronline.com/"));
+                            startActivity(intent);
+                        }
+                    });
+                    break;
+                case 4:
+                    logoImage.setImageDrawable(getResources().getDrawable(R.drawable.logo_aeris));
+                    logoImage.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(Intent.ACTION_VIEW,
+                                    Uri.parse("http://www.aerisweather.com/"));
                             startActivity(intent);
                         }
                     });

@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import benwu.weatherapp.R;
+import benwu.weatherapp.data.AerisWeatherHelper;
 import benwu.weatherapp.data.DataManager;
 import benwu.weatherapp.data.OpenWeatherHelper;
 import benwu.weatherapp.data.WUndergroundHelper;
@@ -83,12 +84,13 @@ public class WeatherInfoActivity extends AppCompatActivity {
     private class RetrieveDataTask extends AsyncTask<String, Void, WeatherDataObject[]> {
         @Override
         protected WeatherDataObject[] doInBackground(String... params) {
-            WeatherDataObject[] weatherData = new WeatherDataObject[4]; // TODO: throw exception
+            WeatherDataObject[] weatherData = new WeatherDataObject[5];
 
             weatherData[0] = OpenWeatherHelper.getDataFor(Data.getOpenweatherkey(), params);
             weatherData[1] = WUndergroundHelper.getDataFor(Data.getWundergroundkey(), params);
             weatherData[2] = YahooWeatherHelper.getDataFor(params);
             weatherData[3] = WorldWeatherHelper.getDataFor(Data.getWorldweatherkey(), params);
+            weatherData[4] = AerisWeatherHelper.getDataFor(Data.getAeriskey(), params);
 
             return weatherData;
         }
