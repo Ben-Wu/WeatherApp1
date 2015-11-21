@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:orientation="vertical"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity">
 
-    <TextView android:text="Enter location" android:layout_width="match_parent"
+    <TextView
+        android:text="Enter location"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textSize="20sp"
@@ -16,19 +19,13 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/locationField"
-        android:hint="Location (i.e. city, town, etc.)"
-        android:layout_below="@+id/mainPrompt"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:hint="Location (i.e. city, town, etc.)" />
 
     <EditText
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/countryField"
-        android:hint="Country (optional)"
-        android:layout_below="@+id/locationField"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:hint="Country (optional)" />
 
     <Button
         android:layout_width="wrap_content"
@@ -36,8 +33,12 @@
         android:text="Get weather"
         android:id="@+id/button"
         android:onClick="showWeatherInfo"
-        android:layout_below="@+id/countryField"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="46dp" />
+        android:layout_gravity="center_horizontal" />
 
-</RelativeLayout>
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/listView"
+        android:layout_gravity="center_horizontal" />
+
+</LinearLayout>

@@ -1,22 +1,20 @@
 package benwu.weatherapp.ui;
 
-import android.annotation.TargetApi;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.Toast;
 
 import benwu.weatherapp.R;
-import benwu.weatherapp.data.AerisWeatherHelper;
+import benwu.weatherapp.utils.AerisWeatherHelper;
 import benwu.weatherapp.data.DataManager;
-import benwu.weatherapp.data.OpenWeatherHelper;
-import benwu.weatherapp.data.WUndergroundHelper;
+import benwu.weatherapp.utils.OpenWeatherHelper;
+import benwu.weatherapp.utils.WUndergroundHelper;
 import benwu.weatherapp.data.WeatherDataObject;
-import benwu.weatherapp.data.WorldWeatherHelper;
-import benwu.weatherapp.data.YahooWeatherHelper;
+import benwu.weatherapp.utils.WorldWeatherHelper;
+import benwu.weatherapp.utils.YahooWeatherHelper;
 import benwu.weatherapp.utils.Data;
 
 /**

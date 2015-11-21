@@ -1,23 +1,22 @@
-package benwu.weatherapp.data;
+package benwu.weatherapp.utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import benwu.weatherapp.data.WeatherDataObject;
 import benwu.weatherapp.utils.LogUtils;
 import benwu.weatherapp.utils.NetworkHelper;
 
 /**
- * Created by Ben Wu on 11/15/2015.
+ * Created by Ben Wu on 11/17/2015.
  */
-public class WorldWeatherHelper {
+public class AerisWeatherHelper {
 
-    private static final String TAG = "WorldWeatherHelper";
+    private static final String TAG = "AerisWeatherHelper";
 
-    private static final String BASE_URL =
-            "http://api.worldweatheronline.com/free/v2/weather.ashx?q=";
-    private static final String PARAMS = "&format=json&num_of_days=1&key=";
+    private static final String BASE_URL = "http://api.aerisapi.com/observations/%s?client_id=%s&client_secret=%s";
 
-    public static WeatherDataObject getDataFor(String key, String... location) {
+    public static WeatherDataObject getDataFor(String[] key, String... location) {
         String jsonContent;
         String locationString = "";
 
@@ -27,7 +26,8 @@ public class WorldWeatherHelper {
         locationString = locationString.substring(0, locationString.length()-1);
 
         try {
-            jsonContent = NetworkHelper.downloadJsonContent(BASE_URL + locationString + PARAMS + key);
+            jsonContent = NetworkHelper.downloadJsonContent(String.format(BASE_URL,
+                    locationString, key[0], key[1]));
         } catch(Exception e) {
             LogUtils.LOGE(TAG, "Download JSON: " + e);
             return null;
@@ -49,13 +49,13 @@ public class WorldWeatherHelper {
 
         root = new JSONObject(content);
 
-        mainData = root.getJSONObject("data").getJSONArray("current_condition").getJSONObject(0);
+        mainData = root.getJSONObject("response");
 
-        weather.setTime(mainData.getString("observation_time") + " GMT");
-        weather.setLocation(root.getJSONObject("data").getJSONArray("request").getJSONObject(0).getString("query"));
-        weather.setCurTemp(mainData.getDouble("temp_C"));
-        weather.setHumidity(mainData.getString("humidity"));
-        weather.setDescription(mainData.getJSONArray("weatherDesc").getJSONObject(0).getString("value"));
+        weather.setTime(mainData.getLong("obTimestamp"));
+        weather.setLocation(mainData.getJSONObject("place").getString("name"));
+        weather.setCurTemp(mainData.getJSONObject("ob").getDouble("tempC"));
+        weather.setHumidity(mainData.getJSONObject("ob").getString("humidity"));
+        weather.setDescription(mainData.getJSONObject("ob").getString("weather"));
 
         return weather;
     }

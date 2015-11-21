@@ -1,8 +1,9 @@
-package benwu.weatherapp.data;
+package benwu.weatherapp.utils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import benwu.weatherapp.data.WeatherDataObject;
 import benwu.weatherapp.utils.LogUtils;
 import benwu.weatherapp.utils.NetworkHelper;
 
