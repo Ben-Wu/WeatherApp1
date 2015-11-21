@@ -12,6 +12,7 @@ import android.widget.Toast;
 
 import benwu.weatherapp.R;
 import benwu.weatherapp.data.SearchHistoryDbHelper;
+import benwu.weatherapp.utils.DateUtils;
 import benwu.weatherapp.utils.NetworkHelper;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(WeatherInfoActivity.KEY_LOCATION, location);
         intent.putExtra(WeatherInfoActivity.KEY_COUNTRY, country);
 
-        mDbHelper.insert(location, country);
+        mDbHelper.insert(location, country, DateUtils.getCurrentTime());
 
         startActivity(intent);
     }
