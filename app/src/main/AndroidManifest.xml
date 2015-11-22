@@ -20,7 +20,8 @@
         </activity>
 
         <activity android:name=".ui.WeatherInfoActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+
+            android:parentActivityName=".ui.MainActivity" >
         </activity>
     </application>
 

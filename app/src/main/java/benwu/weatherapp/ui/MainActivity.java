@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.CursorAdapter;
@@ -17,6 +19,8 @@ import benwu.weatherapp.R;
 import benwu.weatherapp.data.SearchHistoryContract;
 import benwu.weatherapp.data.SearchHistoryDbHelper;
 import benwu.weatherapp.utils.DateUtils;
+
+import static benwu.weatherapp.utils.LogUtils.LOGD;
 import static benwu.weatherapp.utils.LogUtils.LOGI;
 import benwu.weatherapp.utils.NetworkHelper;
 
@@ -55,6 +59,25 @@ public class MainActivity extends AppCompatActivity {
         mAdapter.swapCursor(mCursor);
 
         LOGI(TAG, "Cursor: " + cursorToString(mCursor));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        if (id == R.id.action_clear_history) {
+            LOGD(TAG, mDbHelper.clearAll() + " rows deleted");
+            mAdapter.swapCursor(null);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void showWeatherInfo(View view) {

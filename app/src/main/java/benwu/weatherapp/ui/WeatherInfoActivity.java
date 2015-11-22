@@ -3,8 +3,10 @@ package benwu.weatherapp.ui;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.Toast;
 
 import benwu.weatherapp.R;
@@ -38,7 +40,13 @@ public class WeatherInfoActivity extends AppCompatActivity {
         String location = getIntent().getStringExtra(KEY_LOCATION);
         String country = getIntent().getStringExtra(KEY_COUNTRY);
 
-        setupToolbar(location, country);
+        ActionBar toolbar = getSupportActionBar();
+        if(toolbar != null) {
+            toolbar.setTitle(location);
+            if (!country.isEmpty())
+                toolbar.setSubtitle(country);
+        }
+
 
         if(location == null)
             displayErrorMessage();
@@ -62,17 +70,6 @@ public class WeatherInfoActivity extends AppCompatActivity {
         super.onPause();
         if(mTask != null)
             mTask.cancel(true);
-    }
-
-    private void setupToolbar(String location, String country) {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.weather_info_toolbar);
-        toolbar.setTitle(location);
-        if(!country.isEmpty())
-            toolbar.setSubtitle(country);
-        toolbar.setSubtitleTextColor(getResources().getColor(R.color.white));
-        toolbar.setTitleTextColor(getResources().getColor(R.color.white));
-        //toolbar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
-        setSupportActionBar(toolbar);
     }
 
     private void displayErrorMessage() {
