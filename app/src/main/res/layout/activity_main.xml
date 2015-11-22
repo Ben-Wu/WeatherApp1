@@ -35,7 +35,15 @@
         android:onClick="showWeatherInfo"
         android:layout_gravity="center_horizontal" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="History"
+        android:paddingLeft="15dp"
+        android:paddingBottom="10dp" />
+
     <ListView
+        android:headerDividersEnabled="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/searchHistory"
