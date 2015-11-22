@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 import android.widget.Toast;
 
 import benwu.weatherapp.R;
@@ -30,6 +28,8 @@ public class WeatherInfoActivity extends AppCompatActivity {
     public static final String KEY_LOCATION = "LOCATION";
     public static final String KEY_COUNTRY = "COUNTRY";
 
+    public static boolean sLoaded;
+
     private RetrieveDataTask mTask;
 
     @Override
@@ -48,32 +48,43 @@ public class WeatherInfoActivity extends AppCompatActivity {
         }
 
 
-        if(location == null)
-            displayErrorMessage();
-        else {
-            mTask = new RetrieveDataTask();
-            if (country == null || country.isEmpty()) {
-                mTask.execute(location);
-            } else {
-                mTask.execute(country, location);
+        if(sLoaded) {
+            //replaceFrag();
+        } else {
+            if (location == null)
+                displayErrorMessage();
+            else {
+                mTask = new RetrieveDataTask();
+                if (country == null || country.isEmpty()) {
+                    mTask.execute(location);
+                } else {
+                    mTask.execute(country, location);
+                }
             }
-        }
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        LoadingFragment fragment = new LoadingFragment();
-        transaction.replace(R.id.content_fragment, fragment);
-        transaction.commit();
+            FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            LoadingFragment fragment = new LoadingFragment();
+            transaction.replace(R.id.content_fragment, fragment);
+            transaction.commit();
+        }
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        if(mTask != null)
+        if (mTask != null)
             mTask.cancel(true);
     }
 
     private void displayErrorMessage() {
         Toast.makeText(this, "Invalid location", Toast.LENGTH_SHORT).show();
+    }
+
+    private void replaceFrag() {
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        WeatherInfoFragment fragment = new WeatherInfoFragment();
+        transaction.replace(R.id.content_fragment, fragment);
+        transaction.commit();
     }
 
     private class RetrieveDataTask extends AsyncTask<String, Void, WeatherDataObject[]> {
@@ -96,10 +107,8 @@ public class WeatherInfoActivity extends AppCompatActivity {
                 displayErrorMessage();
             else {
                 DataManager.getInstance().setWeatherData(weatherDataResults);
-                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-                WeatherInfoFragment fragment = new WeatherInfoFragment();
-                transaction.replace(R.id.content_fragment, fragment);
-                transaction.commit();
+                sLoaded = true;
+                replaceFrag();
             }
         }
     }

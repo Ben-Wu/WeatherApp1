@@ -113,6 +113,8 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra(WeatherInfoActivity.KEY_LOCATION, location);
         intent.putExtra(WeatherInfoActivity.KEY_COUNTRY, country);
 
+        WeatherInfoActivity.sLoaded = false;
+
         startActivity(intent);
     }
 
