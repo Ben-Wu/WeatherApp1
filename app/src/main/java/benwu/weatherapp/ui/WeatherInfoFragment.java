@@ -166,7 +166,7 @@ public class WeatherInfoFragment extends Fragment {
 
     private int matchIcon(String description) {
         description = description.toLowerCase();
-        if(description.contains("clear")) {
+        if(description.contains("clear") || description.contains("sun")) {
             return R.drawable.weather_clear;
         } else if(description.contains("part")) {
             return R.drawable.weather_partial;

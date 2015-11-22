@@ -16,11 +16,9 @@ public class SearchHistoryDbHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "SearchHistory.db";
 
-    private static int sCount = 1;
-
     private static final String SQL_CREATE_ENTRIES =
             "CREATE TABLE " + SearchHistoryColumns.TABLE_NAME + " (" +
-                    SearchHistoryColumns._ID + " INTEGER PRIMARY KEY," +
+                    SearchHistoryColumns._ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                     SearchHistoryColumns.COLUMN_CITY + " TEXT," +
                     SearchHistoryColumns.COLUMN_COUNTRY + " TEXT," +
                     SearchHistoryColumns.COLUMN_DATE + " TEXT" +
@@ -50,7 +48,6 @@ public class SearchHistoryDbHelper extends SQLiteOpenHelper {
         SQLiteDatabase db = getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(SearchHistoryColumns._ID, sCount++);
         values.put(SearchHistoryColumns.COLUMN_CITY, city);
         values.put(SearchHistoryColumns.COLUMN_COUNTRY, country);
         values.put(SearchHistoryColumns.COLUMN_DATE, date);
@@ -60,7 +57,7 @@ public class SearchHistoryDbHelper extends SQLiteOpenHelper {
 
     public int clearAll() {
         SQLiteDatabase db = getReadableDatabase();
-        sCount = 1;
+
         return db.delete(SearchHistoryColumns.TABLE_NAME, null, null);
     }
 
