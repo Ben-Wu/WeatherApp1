@@ -1,15 +1,14 @@
-# Imprecise-Weather
+# Imprecise Weather
 Weather app pulling data from multiple weather APIs.
 
-<img src="http://benwu.ca/impreciseweather/icon.png" width="400" />
+![icon](images/icon.png)
 
-###Screenshots:
+### Screenshots:
 
-<img src="http://benwu.ca/impreciseweather/phone1.png" width="250" />
-<img src="http://benwu.ca/impreciseweather/phone2.png" width="250" />
-<img src="http://benwu.ca/impreciseweather/phone3.png" width="250" />
+![screenshot1](images/phone1.png)
+![screenshot2](images/phone2.png)
+![screenshot3](images/phone3.png)
 
-<img src="http://benwu.ca/impreciseweather/phone4.png" width="400" />
-
-<img src="http://benwu.ca/impreciseweather/phone5.png" width="400" />
-<img src="http://benwu.ca/impreciseweather/phone6.png" width="400" />
+![screenshot4](images/phone4.png)
+![screenshot5](images/phone5.png)
+![screenshot6](images/phone6.png)
